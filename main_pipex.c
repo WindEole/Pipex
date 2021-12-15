@@ -6,7 +6,7 @@
 /*   By: iderighe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/13 10:19:10 by iderighe          #+#    #+#             */
-/*   Updated: 2021/12/14 16:41:12 by iderighe         ###   ########.fr       */
+/*   Updated: 2021/12/15 15:24:58 by iderighe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,13 +27,6 @@ void	ft_free_split(char **s)
 		free(s);
 	}
 }
-
-
-
-
-
-
-
 
 int	ft_error(char *s, int r)
 {
@@ -67,7 +60,7 @@ int	ft_error(char *s, int r)
 
 
 
-char	**ft_create_dir_tab(char *path)
+/*char	**ft_create_dir_tab(char *path)
 {
 printf(GREEN"on entre dans create_dir_tab"RESET"\n");
 	char	**dir;
@@ -94,18 +87,6 @@ k++;
 }
 	free(new_path);
 	return (dir);
-}
-
-
-
-
-
-
-
-/*t_cmd	**ft_list_cmd(char *av)
-{
-	
-
 }*/
 
 
@@ -113,8 +94,7 @@ k++;
 
 
 
-
-int	ft_count_flags(char *av)
+/*int	ft_count_flags(char *av)
 {
 	int	i;
 	int	j;
@@ -125,24 +105,22 @@ int	ft_count_flags(char *av)
 		if (av[i] == ' ')
 			j++;
 	return (j);
-}
+}*/
 
 
 
 
 
 
-
-
-int	ft_check_cmd(char **av, char *path)
+/*int	ft_check_cmd(char **av, char *path)
 {
 printf(YELLOW"On entre dans check_cmd\n");
 	int		i;
 	int		j;
-	char	**dir;
+//	char	**dir;
 	char	**cmd;
 
-	dir = ft_create_dir_tab(path);
+//	dir = ft_create_dir_tab(path);
 	i = 0;
 	while (++i < 5)
 	{
@@ -159,7 +137,7 @@ printf(YELLOW"On entre dans check_cmd\n");
 				if (av[i][j] == ' ')
 					cmd = ft_split(av[i], ' ');
 		}
-	}
+	}*/
 /*int	k;
 k = 0;
 while (cmd_f[k])
@@ -167,38 +145,80 @@ while (cmd_f[k])
 printf(YELLOW" [%d] - [%s]"RESET"\n", k, cmd_f[k]);
 k++;
 }*/
-	ft_free_split(dir);
-	return (1);
+//	ft_free_split(dir);
+//	return (1);
+//}
+
+
+
+
+
+/*char	**ft_create_dir_tab(char *path)
+{
+printf(GREEN"on entre dans create_dir_tab"RESET"\n");
+	char	**dir;
+	char	*new_path;
+	int		i;
+	int		j;
+
+printf(GREEN"env = %s"RESET"\n", new_path);
+	dir = ft_split_add(new_path, ':');
+int	k;
+k = 0;
+while (dir[k])
+{
+printf(GREEN"[%d] - [%s]"RESET"\n", k, dir[k]);
+k++;
+}
+	free(new_path);
+	return (dir);
+}*/
+
+
+
+
+
+char	*ft_path_dir(char **env)
+{
+	char	*path_dir;
+	int		i;
+	int		j;
+	int		k;
+
+	i = 0; 
+	while (env[++i])
+	{
+		if (env[i][0] == 'P' && env[i][1] == 'A' && env[i][2] == 'T'
+		&& env[i][3] == 'H' && env[i][4] == '=')
+		{
+			path_dir = malloc(sizeof(char) * (ft_strlen(env[i]) - 4));
+			if (path_dir == NULL)
+				return (NULL);
+			k = 0;
+			j = 5;
+			while (env[i][j])
+				path_dir[k++] = env[i][j++];
+			path_dir[k] = '\0';
+			return (path_dir);
+		}
+	}
+	return (NULL);
 }
 
 
 
 
 
-
-
-int	ft_check_file(char **av)
+int	ft_check_file(int ac, char **av)
 {
 	int	i;
 
-printf(CYAN"On entre dans check_file"RESET"\n");
 	i = 0;
-	while (++i < 5)
+	while (++i < ac)
 	{
-		if (i == 1 || i == 4)
-		{
-//printf(CYAN"i = %d, retour d'open : %d"RESET"\n", i, j);
-//			if (open(av[i], O_RDONLY) == -1)
-//				return (0);
-			if (access(av[i], F_OK) < 0 || access(av[i], R_OK) < 0 || access(av[i], W_OK) < 0)
-				{
-printf(CYAN"F=[%d], R=[%d], W=[%d]"RESET"\n", access(av[i], F_OK), access(av[i], R_OK), access(av[i], W_OK));
+		if (i == 1 || i == ac - 1)
+			if (access(av[i], F_OK) || access(av[i], R_OK | W_OK) < 0) // || access(av[i], R_OK) < 0 || access(av[i], W_OK) < 0)
 				return (0);
-				}
-		}
-//		if (i == 2 || i == 3)
-//			if (!ft_check_cmd(env))
-//				return (0);
 	}
 	return (1);
 }
@@ -208,9 +228,7 @@ printf(CYAN"F=[%d], R=[%d], W=[%d]"RESET"\n", access(av[i], F_OK), access(av[i],
 
 
 
-
-
-int	main(int ac, char **av, char **env)
+/*int	main2(int ac, char **av, char **env)
 {
 int	j = 0;
 while (j < 5)
@@ -219,11 +237,11 @@ printf(PURPLE"av[%d] = %s"RESET"\n", j, av[j]);
 j++;
 }
 	int		i;
-	int		k;
+//	int		k;
 //	t_cmd	**cmd;
 
 	i = -1;
-	k = 0;
+//	k = 0;
 	if (ac == 5 && av[0])
 	{
 printf(PURPLE"OK : ac == 5 !"RESET"\n");
@@ -242,4 +260,73 @@ printf(PURPLE"OK : ac == 5 !"RESET"\n");
 	else
 		return (ft_error("Error\n- wrong number of arguments", 1));
 	return (0);
+}*/
+
+int	main(int ac, char **av, char **env)
+{
+	int	fd[2];
+//	int	pid1;
+//	int	pid2;
+	char	*path_dir;
+	char	**std_dir;
+	char	**cmd;
+
+	if (pipe(fd) == -1)
+		return (1);
+	if (ac >= 5 && av[0])
+	{
+		if (!ft_check_file(ac, av))
+			return (ft_error("Error\n- check the files", 1));
+		path_dir = ft_path_dir(env);
+		if (path_dir == NULL)
+			return (ft_error("Error\n- no global variable PATH", 1));
+		std_dir = ft_split_add(path_dir, ':');
+		if (std_dir == NULL)
+			return (ft_error("Error\n- no valid directories", 1));
+int	k;
+k = 0;
+while (std_dir[k])
+{
+printf(GREEN"[%d] - [%s]"RESET"\n", k, std_dir[k]);
+k++;
+}
+		ft_fork_cmd(av, std_dir);
+		free(path_dir);
+		ft_free_split(std_dir);
+
+/*
+///// Mettre les fork child dans une boucle pour faire le multipipe ! ////
+	pid1 = fork();
+	if (pid1 < 0)
+		return (2);
+	if (pid1 == 0)
+	{
+// child process 1 (ex :ping)
+		dup2(fd[1], STDOUT_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		execlp("ping", "ping", "-c", "5", "google.com", NULL);
+	}
+	pid2 = fork();
+	if (pid2 < 0)
+		return (3);
+	if (pid2 == 0)
+	{
+// child process 2 (ex :grep)
+		dup2(fd[0], STDIN_FILENO);
+		close(fd[0]);
+		close(fd[1]);
+		execlp("grep", "grep", "rtt", NULL);
+	}
+
+//////////////// fin de la boucle de fork !   ///////////////
+
+	close(fd[0]);
+	close(fd[1]);
+	waitpid(pid1, NULL, 0);
+	waitpid(pid2, NULL, 0);*/
+	}
+	else
+		return (ft_error("Error\n- wrong number of arguments", 1));
+	return 0;
 }
