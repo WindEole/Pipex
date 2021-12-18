@@ -6,7 +6,7 @@
 /*   By: iderighe <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2021/12/11 11:49:48 by iderighe          #+#    #+#             */
-/*   Updated: 2021/12/14 16:41:07 by iderighe         ###   ########.fr       */
+/*   Updated: 2021/12/18 21:52:18 by iderighe         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,10 @@
 # define GREY "\033[1;37m"
 # define RESET "\033[0m"
 
-
+typedef struct s_pip
+{
+	char	**dir;
+}	t_pip;
 
 
 
